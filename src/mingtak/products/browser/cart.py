@@ -58,8 +58,7 @@ class CartUpdate(BrowserView):
             return
 
         shop_cart = json.dumps(shop_cart)
-        request.response.setCookie('shop_cart', shop_cart)
-        
+        request.response.setCookie('shop_cart', shop_cart, path='/OppToday')
         if action in ['add', 'get'] and msg not in ['商品已在購物車內']:
             data = {
                 'abs_url': content.absolute_url(),

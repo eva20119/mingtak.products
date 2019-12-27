@@ -36,5 +36,10 @@
       class='.cart.CartUpdate'
       permission='zope2.View'
       />
-
+  <browser:page
+      name='check_out'
+      for='*'
+      class='.views.CheckOut'
+      permission='zope2.View'
+      />
 </configure>

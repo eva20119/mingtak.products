@@ -1,0 +1,76 @@
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en'
+   xmlns:tal='http://xml.zope.org/namespaces/tal'
+   xmlns:metal='http://xml.zope.org/namespaces/metal'
+   xmlns:i18n='http://xml.zope.org/namespaces/i18n'
+   lang='en'
+   metal:use-macro='context/main_template/macros/master'
+   i18n:domain='twNotice.content'>
+<body>
+
+
+<metal:content-core fill-slot='content-core'>
+<metal:content-core define-macro='content-core'
+                    tal:define='toc context/table_of_contents|nothing;'>
+
+<?python
+from plone import api
+abs_url = api.portal.get().absolute_url()
+?>
+<style>
+.documentFirstHeading{
+    display: none;
+}
+</style>
+
+<div class="container table-row">
+    <div class='row'>
+        <div class="col-sm-4 product-thumbnail">IMAGE</div>
+        <div class="col-sm-4 product-name">PRODUCT NAME</div>
+        <div class="col-sm-2 product-price">UNIT PRICE</div>
+        <div class="col-sm-2 product-remove"></div>
+    </div>
+    <div class="row product_content" tal:repeat="item view/data">
+        <div class="col-sm-4 ">
+            <a href="${item/absolute_url}">
+                <img src="${item/absolute_url}/@@images/image_1" alt="">
+            </a>
+        </div>
+        <div class="col-sm-4" >
+            <a href="${item/absolute_url}">${item/title}</a>
+        </div>
+        <div class="col-sm-2">
+            <tal:cond condition="item/salePrice">
+                <span class='discount_price'>NT${item/salePrice}</span>
+                <del>${item/listPrice}</del>
+            </tal:cond>
+            <tal:cond condition="not: item/salePrice">
+                <span>NT ${item/listPrice}</span>
+            </tal:cond>
+        </div>
+        <div class="col-sm-2">
+            <img src="${abs_url}/++resource++mingtak.products/trash.png" 
+                class="delete_product">
+        </div>
+    </div>
+</div>
+
+<div>
+    <span>總計:</span>
+    <span>${view/cart_money}</span>
+</div>
+
+<button class='cart-checkout' id='pay'>結帳</button>
+
+<script>
+$(function(){
+    $('#pay').click(function(){
+        location.href = '${abs_url}/pay'
+    })
+})
+</script>
+
+</metal:content-core>
+</metal:content-core>
+
+</body>
+</html>

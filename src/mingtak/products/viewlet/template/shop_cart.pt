@@ -1,4 +1,4 @@
-<div class="mini-cart-sub" id='shop-cart' style='display: none2'>
+<div class="mini-cart-sub" id='shop-cart' style='display: none'>
 <?python
 from plone import api
 abs_url = api.portal.get().absolute_url()
@@ -22,10 +22,10 @@ abs_url = api.portal.get().absolute_url()
         </div>
         <div class="cart-totals">
             <h5>
-                Total <span style="color: rgb(246, 147, 31);" id='cart_money'>${view/cart_moeny}</span>
+                Total <span style="color: rgb(246, 147, 31);" id='cart_money'>${view/cart_money}</span>
                 <span>NT</span>
             </h5>
         </div>
-        <button class="cart-checkout" onclick="location.href='${abs_url}/check_out'">Check out</button>
+        <button class="cart-checkout" onclick="location.href='${abs_url}/check_out'">Check Out</button>
     </div>
 </div>

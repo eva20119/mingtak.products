@@ -40,3 +40,15 @@
     font-size: 18px;
     font-weight: 700;
 }
+.product_content{
+    align-items: center;
+    padding: 10px;
+}
+.table-row .row{
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
+.delete_product{
+    width: 25px;
+    cursor: pointer;
+}

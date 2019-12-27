@@ -1,4 +1,16 @@
 $(function() {
+    $('.delete_product').click(function(){
+        uid = $(this).data()['uid']
+        $.ajax({
+            type: "post",
+            url: location.href  + "/cart_update",
+            data: {uid: uid, action: 'del'},
+            success: function (rep) {
+                rep = JSON.parse(rep)
+                alert(rep['msg'])
+            }
+        })
+    })
     $('#shop-cart-icon').hover(function(){
         $('#shop-cart').toggle('slow')
     })

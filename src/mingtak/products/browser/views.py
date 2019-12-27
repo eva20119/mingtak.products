@@ -8,6 +8,29 @@ from plone import api
 #from DateTime import DateTime
 #import transaction
 #import csv
+import json
+
+
+class CheckOut(BrowserView):
+    template = ViewPageTemplateFile('template/check_out.pt')
+    def __call__(self):
+        request = self.request
+        portal = api.portal.get()
+        shop_cart = request.cookies.get('shop_cart')
+        shop_cart = json.loads(shop_cart) if shop_cart else {}
+
+        data = []
+        cart_money = 0
+        for i in shop_cart.keys():
+            try:
+                content = api.content.get(UID=i)
+                cart_money += content.salePrice if content.salePrice else content.listPrice
+                data.append(content)
+            except:
+                continue
+        self.data = data
+        self.cart_money = cart_money
+        return self.template()
 
 
 class ProductView(BrowserView):
