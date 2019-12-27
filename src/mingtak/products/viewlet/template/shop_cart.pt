@@ -1,0 +1,31 @@
+<div class="mini-cart-sub" id='shop-cart' style='display: none2'>
+<?python
+from plone import api
+abs_url = api.portal.get().absolute_url()
+?>
+    <div class="cart-product">
+        <div class="single-cart">
+            <div class="cart-img">
+                <a href="http://50.116.11.80:9601/alpha_en/products/vppro/team-losi-option-parts/aluminum-cluthch-shoes">
+                    <img src="http://50.116.11.80:9601/alpha_en/products/vppro/team-losi-option-parts/aluminum-cluthch-shoes/@@images/cover/thumb">
+                </a>
+            </div>
+            <div class="cart-info">
+                <h5>
+                    <a href="http://50.116.11.80:9601/alpha_en/products/vppro/team-losi-option-parts/aluminum-cluthch-shoes">(Aluminum) Clutch Shoes</a>
+                </h5>
+                <p>$ 17.8 x 1</p>
+            </div>
+        </div>
+
+        <div class="cart-totals">
+            <h5>
+                Total <span style="color: rgb(246, 147, 31);">0</span>
+                <span>$</span>
+            </h5>
+        </div>
+
+        <button class="cart-checkout" data-uid="${view/context/UID}" 
+            onclick="location.href='${abs_url}/check_out'">Check out</button>
+    </div>
+</div>

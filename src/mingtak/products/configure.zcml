@@ -1,0 +1,58 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="mingtak.products">
+
+  <i18n:registerTranslations directory="locales" />
+
+  <includeDependencies package="." />
+
+  <include package=".browser" />
+  <include package=".viewlet" />
+
+  <genericsetup:registerProfile
+      name="default"
+      title="mingtak.products"
+      directory="profiles/default"
+      description="Installs the mingtak.products add-on."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      post_handler=".setuphandlers.post_install"
+      />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="mingtak.products (uninstall)"
+      directory="profiles/uninstall"
+      description="Uninstalls the mingtak.products add-on."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      post_handler=".setuphandlers.uninstall"
+      />
+
+  <utility
+      factory=".setuphandlers.HiddenProfiles"
+      name="mingtak.products-hiddenprofiles" />
+
+  <!-- Adapter for catalog -->
+  <adapter name="productUrl" factory=".catalog.productUrl_indexer" />
+  <adapter name="inStock" factory=".catalog.inStock_indexer" />
+  <adapter name="brand" factory=".catalog.brand_indexer" />
+  <adapter name="listPrice" factory=".catalog.listPrice_indexer"/>
+  <adapter name="salePrice" factory=".catalog.salePrice_indexer"/>
+  <adapter name="bonusPoint" factory=".catalog.bonusPoint_indexer"/>
+  <adapter name="maxUsedBonus" factory=".catalog.maxUsedBonus_indexer"/>
+  <adapter name="standardShippingCost" factory=".catalog.standardShippingCost_indexer"/>
+  <adapter name="lastUpdated" factory=".catalog.lastUpdated_indexer"/>
+  <adapter name="productId" factory=".catalog.productId_indexer"/>
+  <adapter name="hasImage1" factory=".catalog.hasImage1_indexer"/>
+<!--  <adapter name="" factory=".catalog._indexer"/>
+  <adapter name="" factory=".catalog._indexer"/>
+  <adapter name="" factory=".catalog._indexer"/>
+  <adapter name="" factory=".catalog._indexer"/>
+  <adapter name="" factory=".catalog._indexer"/>
+  <adapter name="" factory=".catalog._indexer"/>
+  <adapter name="" factory=".catalog._indexer"/>
+  <adapter name="" factory=".catalog._indexer"/>
+  <adapter name="" factory=".catalog._indexer"/>
+-->
+</configure>

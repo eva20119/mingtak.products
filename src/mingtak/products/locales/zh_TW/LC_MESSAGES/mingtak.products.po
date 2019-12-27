@@ -1,0 +1,155 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2016-09-28 15:10+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+
+#: ./interfaces.py:127
+msgid "Bonus Point"
+msgstr "紅利點數"
+
+#: ./interfaces.py:128
+msgid "Bonus point setting, please filling decimal point. maximum is 0.05 (5%)"
+msgstr "紅利點數設定，請填小數點，例如 0.05 就是 5%"
+
+#: ./interfaces.py:67
+msgid "Brand"
+msgstr "品牌"
+
+#: ./interfaces.py:68
+msgid "Brand name."
+msgstr "品牌名稱."
+
+#: ./interfaces.py:169
+msgid "Date of the most recent update to the product."
+msgstr "產品資訊更新日期"
+
+#: ./interfaces.py:49
+msgid "Description"
+msgstr "描述"
+
+#: ./interfaces.py:155
+msgid "Hero Text"
+msgstr "Hero 文字"
+
+#: ./interfaces.py:61
+msgid "If In Stock, Please check it."
+msgstr "若有庫存，請打勾"
+
+#: ./interfaces.py:60
+msgid "In Stock?"
+msgstr "是否有庫存?"
+
+#: ./configure.zcml:21
+msgid "Installs the mingtak.products add-on."
+msgstr ""
+
+#: ./interfaces.py:168
+msgid "Last Updated"
+msgstr "最後更新"
+
+#: ./interfaces.py:73
+msgid "List Price"
+msgstr "定價"
+
+#: ./interfaces.py:137
+msgid "Maximum Used Bonus Points"
+msgstr "最大使用紅利點數"
+
+#: ./profiles/default/types/Product.xml
+msgid "Product"
+msgstr "產品"
+
+#: ./interfaces.py:44
+msgid "Product Id"
+msgstr "產品 id"
+
+#: ./interfaces.py:91
+msgid "Product Image."
+msgstr "產品圖檔"
+
+#: ./browser/template/product_view.pt:15
+msgid "Product Info"
+msgstr "產品資訊"
+
+#: ./browser/template/product_listing.pt:20
+msgid "Product Listing"
+msgstr "產品列表"
+
+#: ./interfaces.py:39
+msgid "Product Name"
+msgstr "產品名稱"
+
+#: ./interfaces.py:92
+msgid "Product image for header."
+msgstr "產品圖檔(首圖)"
+
+#: ./interfaces.py:98
+msgid "Product image."
+msgstr "產品圖檔"
+
+#: ./interfaces.py:55
+msgid "Product introduction web page include http:// or https://"
+msgstr "產品原廠網頁網址"
+
+#: ./interfaces.py:147
+msgid "Promotional Text"
+msgstr "促銷文字"
+
+#: ./interfaces.py:156
+msgid "Promotional Text for Hero page"
+msgstr "促銷文字(置於 Hero page)"
+
+#: ./interfaces.py:148
+msgid "Promotional Text, support html format richtext."
+msgstr "促銷文字，支援 html 格式(Richtext)"
+
+#: ./interfaces.py:54
+msgid "Pruduct URL"
+msgstr "產品網址"
+
+#: ./interfaces.py:79
+msgid "Sale price"
+msgstr "售價"
+
+#: ./interfaces.py:80
+msgid "Sale price for the product if different from the list price, must be <= listPrice."
+msgstr "產品真正售價，若與定價不同，必需小於定價"
+
+#: ./interfaces.py:162
+msgid "Standard shipping cost"
+msgstr "標準運費"
+
+#: ./interfaces.py:74
+msgid "The list price of the product."
+msgstr "產品定價"
+
+#: ./configure.zcml:30
+msgid "Uninstalls the mingtak.products add-on."
+msgstr ""
+
+#: ./interfaces.py:163
+msgid "Usually is the cost for the typical standard, lowest cost shipping method. This is provided for informational purposes and the actual shipping cost could vary depending on the visitor."
+msgstr ""
+
+#: ./interfaces.py:138
+msgid "You can use a maximum bonus points."
+msgstr "您可以使用的最大紅利點數"
+
+#: ./configure.zcml:21
+msgid "mingtak.products"
+msgstr ""
+
+#: ./configure.zcml:30
+msgid "mingtak.products (uninstall)"
+msgstr ""

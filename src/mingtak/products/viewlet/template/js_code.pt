@@ -1,0 +1,133 @@
+<?python
+from plone import api
+import json
+portal = api.portal.get()
+request = econtext['request']
+itemInCart = request.cookies.get('itemInCart', '{}')
+if itemInCart:
+    cart_items = len(json.loads(itemInCart))
+else:
+    cart_items = 0
+?>
+
+<div id='vue_js_code'>
+
+<script tal:attributes="src string:${portal/absolute_url}/++resource++mingtak.products/vue.min.js" />
+<script tal:attributes="src string:${portal/absolute_url}/++resource++mingtak.products/vue-resource.min.js" />
+<!-- <script src="https://vuejs.org/js/vue.js" /> -->
+<!-- <script src="https://cdn.jsdelivr.net/vue.resource/1.0.2/vue-resource.min.js"></script> -->
+<script>
+
+var vm = new Vue({
+  el: 'body',
+
+  data: {
+    item_in_cart: '${itemInCart}',
+    cart_items: '${cart_items}',
+    transition_name: 'fadeout',
+    LogisticsType: 'home',
+    signal: true,
+  },
+
+  computed: {
+    logist: function() {
+        this.LogisticsType;
+        $(function() {
+            $('form').dk_tw_citySelector('.city', '.district', '.zipcode');
+        });
+        return;
+    },
+
+    amount: function() {
+      var items = $("span.subamount");
+      var total = 0;
+      for(var i=0; i<items.length; i+=1){
+          total += parseInt(items[i].dataset['subamount']);
+      }
+      this.signal;
+      return total;
+    },
+  },
+
+  methods: {
+    updateCart_checkoutConfirm: function(action, uid) {
+        vm.updateCart(action, uid);
+
+        if(action === 'less'){
+            if($('#' + uid + ' span.qty-fld')[0].textContent === '0'){
+                $('#' + uid).fadeOut("solw",function(){
+                    $(this).remove();
+                });
+            };
+        };
+        if(action === 'del'){
+            $('#' + uid).fadeOut("solw",function(){
+                $(this).remove();
+            });
+        };
+        this.signal = ! this.signal;
+    },
+
+    updateCart: function (action, uid) {
+      // GET
+      this.$http.get('${portal/absolute_url}/@@cart_update?action=' + action + '&uid=' + uid).then((response) => {
+        // success callback
+           jsonData = JSON.parse(response.body);
+           l = 0;
+           for(i in jsonData){
+             if (jsonData.hasOwnProperty(i)){
+               l++;
+             };
+           };
+           this.item_in_cart = jsonData;
+           this.cart_items = l;
+           updateCartState = $.ajax({url:'/@@update_cart_state', async: false});
+           $('#topbarcart').html(updateCartState.responseText);
+        }, (response) => {
+          // error callback
+            console.log('error');
+      });
+    },
+
+    toOutlet: function(){
+        window.location = '${portal/absolute_url}/outlet';
+    },
+  }
+});
+
+
+      $('document').ready(function() {
+          var $container = $('body');
+          $container.imagesLoaded( function() {
+<!-- Related Items -->
+            $('#related-products').rivaSlider({
+              visible : 4,
+              selector : 'envor-product-1'
+            });
+            $('.carousel').carousel();
+<!-- sorted Item -->
+            $('#estate-sorting').rivaSorting({
+              showAll : 1
+            });
+          });
+      });
+
+
+</script>
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-67391803-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+</div>

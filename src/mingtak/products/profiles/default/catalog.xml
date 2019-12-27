@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<object name="portal_catalog" meta_type="Plone Catalog Tool">
+
+  <index name="hasImage1" meta_type="BooleanIndex">
+    <indexed_attr value="hasImage1" />
+  </index>
+  <column value="hasImage1"/>
+
+  <index name="productId" meta_type="FieldIndex">
+    <indexed_attr value="productId" />
+  </index>
+  <column value="productId"/>
+
+  <index name="lastUpdated" meta_type="DateIndex">
+    <indexed_attr value="lastUpdated" />
+  </index>
+  <column value="lastUpdated"/>
+
+  <index name="standardShippingCost" meta_type="FieldIndex">
+    <indexed_attr value="standardShippingCost" />
+  </index>
+  <column value="standardShippingCost"/>
+
+  <index name="maxUsedBonus" meta_type="FieldIndex">
+    <indexed_attr value="maxUsedBonus" />
+  </index>
+  <column value="maxUsedBonus"/>
+
+  <index name="bonusPoint" meta_type="FieldIndex">
+    <indexed_attr value="bonusPoint" />
+  </index>
+  <column value="bonusPoint"/>
+
+  <index name="salePrice" meta_type="FieldIndex">
+    <indexed_attr value="salePrice" />
+  </index>
+  <column value="salePrice"/>
+
+  <index name="listPrice" meta_type="FieldIndex">
+    <indexed_attr value="listPrice" />
+  </index>
+  <column value="listPrice"/>
+
+  <index name="brand" meta_type="FieldIndex">
+    <indexed_attr value="brand" />
+  </index>
+  <column value="brand"/>
+
+  <index name="inStock" meta_type="BooleanIndex">
+    <indexed_attr value="inStock" />
+  </index>
+  <column value="inStock"/>
+
+  <column value="productUrl"/>
+
+</object>
+

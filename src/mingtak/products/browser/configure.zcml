@@ -1,0 +1,41 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="mingtak.products">
+
+  <!-- Set overrides folder for Just-a-Bunch-Of-Templates product -->
+  <include package="z3c.jbot" file="meta.zcml" />
+  <browser:jbot
+      directory="overrides"
+      layer="mingtak.products.interfaces.IMingtakProductsLayer"
+      />
+
+  <!-- Publish static files -->
+  <browser:resourceDirectory
+      name="mingtak.products"
+      directory="static"
+      />
+
+  <browser:page
+      name="product_view"
+      for="mingtak.products.interfaces.IProduct"
+      class=".views.ProductView"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="product_listing"
+      for="plone.app.contenttypes.interfaces.IFolder"
+      class=".views.ProductListing"
+      permission="zope2.View"
+      />
+  <browser:page
+      name='cart_search_product'
+      for='*'
+      class='.views.CartSearchProduct'
+      permission='zope2.View'
+      />
+
+
+</configure>

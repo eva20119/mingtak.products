@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:metal="http://xml.zope.org/namespaces/metal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    xmlns:v-on="http://vuejs.org"
+    lang="en"
+    metal:use-macro="context/main_template/macros/master"
+    i18n:domain="mingtak.products">
+<body>
+
+
+<metal:content-core fill-slot="content-core">
+<metal:content-core define-macro="content-core"
+                    tal:define="toc context/table_of_contents|nothing;">
+
+<?python
+from plone import api
+?>
+
+<h3 i18n:translate="">Product Listing</h3>
+<tal:products define="items context/getChildNodes">
+  <tal:item repeat="item items">
+    <tal:condition condition="python:api.content.get_state(obj=item) == 'published'">
+      <a tal:attributes="href item/absolute_url; 
+                         title item/title">
+        <span>${item/title}</span><br>
+        <img tal:replace="structure item/@@images/image_1/thumb" />
+      </a>
+
+      <a href="${portal_url}/@@cart_update?p_id=${item/id}&action=add">加入購物車</a> / 
+      <a href="${portal_url}/@@cart_update?p_id=${item/id}&action=del">刪除本項</a>
+
+    </tal:condition>
+  </tal:item>
+</tal:products>
+
+<a href="${portal_url}/@@confirm_cart" class="view-btn color-1"><span>前往結帳</span></a>
+
+
+<!--
+<div class="cart_state">
+  <p>{{ item_in_cart | json }}</p>
+</div>
+-->
+
+</metal:content-core>
+</metal:content-core>
+
+</body>
+</html>

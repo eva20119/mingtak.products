@@ -1,0 +1,122 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:metal="http://xml.zope.org/namespaces/metal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    lang="en"
+    metal:use-macro="context/main_template/macros/master"
+    i18n:domain="mingtak.products">
+<body>
+
+
+<metal:content-core fill-slot="content-core">
+<metal:content-core define-macro="content-core"
+                    tal:define="toc context/table_of_contents|nothing;">
+<?python
+from plone import api
+abs_url = api.portal.get().absolute_url()
+?>
+<style>
+.documentDescription.description{
+    display: none;
+}
+* {box-sizing:border-box}
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+.mySlides {
+  display: none;
+}
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+.active, .dot:hover {
+  background-color: #717171;
+}
+.product_title{
+    color: #393939;
+    font-size: 24px;
+    font-weight: 700;
+}
+.product_price{
+    font-size: 18px;
+    font-weight: 700;
+}
+.discount_price{
+    color: #e91113;
+}
+</style>
+
+<div class="col-md-8">
+    <div class="slideshow-container">
+        <tal:rep repeat="i python: range(1, 6)">
+            <div class="mySlides" tal:condition="python: getattr(view.context, 'image_' + str(i))">
+                <img src="${view/context/absolute_url}/@@images/image_${i}" style="width:100%">
+            </div>
+        </tal:rep>
+        <a class="prev" >&#10094;</a>
+        <a class="next" >&#10095;</a>
+    </div>
+</div>
+
+<div class="col-md-4">
+    <h1 class='product_title'>${view/context/title}</h1>
+    <div class='product_price'>
+        <tal:cond condition="view/context/salePrice">
+            <span class='discount_price'>NT${view/context/salePrice}</span>
+            <del>${view/context/listPrice}</del>
+        </tal:cond>
+        <tal:cond condition="not: view/context/salePrice">
+            <span>NT ${view/context/listPrice}</span>
+        </tal:cond>
+    </div>
+    <button class='add_to_cart'>Add To Cart</button>
+</div>
+
+<script>
+$(function() {
+    var slideIndex = 1;
+    showSlides(slideIndex);
+    $('.prev').click(function(){
+        showSlides(slideIndex -= 1)
+    })
+    $('.next').click(function(){
+        showSlides(slideIndex += 1)
+    })
+    function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        if (n > slides.length) {slideIndex = 1}
+        if (n < 1) {slideIndex = slides.length}
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slides[slideIndex-1].style.display = "block";
+    }
+})
+</script>
+
+</metal:content-core>
+</metal:content-core>
+
+</body>
+</html>
