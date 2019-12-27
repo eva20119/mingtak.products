@@ -57,13 +57,6 @@ abs_url = api.portal.get().absolute_url()
     font-size: 24px;
     font-weight: 700;
 }
-.product_price{
-    font-size: 18px;
-    font-weight: 700;
-}
-.discount_price{
-    color: #e91113;
-}
 </style>
 
 <div class="col-md-8">
@@ -89,7 +82,7 @@ abs_url = api.portal.get().absolute_url()
             <span>NT ${view/context/listPrice}</span>
         </tal:cond>
     </div>
-    <button class='add_to_cart'>Add To Cart</button>
+    <button class='add_to_cart' data-uid="${view/context/UID}" >Add To Cart</button>
 </div>
 
 <script>

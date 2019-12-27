@@ -33,3 +33,10 @@
     background: #606060;
     color: #f0ce16;
 }
+.discount_price{
+    color: #e91113;
+}
+.product_price{
+    font-size: 18px;
+    font-weight: 700;
+}

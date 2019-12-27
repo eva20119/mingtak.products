@@ -8,53 +8,66 @@ import logging
 
 
 class CartUpdate(BrowserView):
-    """ Cart Update
-    """
-
     logger = logging.getLogger('Update Item to Cart.')
-
     def __call__(self):
         context = self.context
         request = self.request
         response = request.response
         portal = api.portal.get()
-        catalog = context.portal_catalog
         logger = self.logger
 
-        # itemInCart's format: {UID:amount, ...}
-        itemInCart = request.cookies.get('itemInCart', '{}')
-        if itemInCart:
-            itemInCart = json.loads(itemInCart)
-        else:
-            itemInCart = {}
-
-        itemUID = request.form.get('uid')
+        uid = request.form.get('uid')
         action = request.form.get('action')
-        if not (itemUID and action):
-            response.redirect(portal.absolute_url())
+
+        if not (uid and action):
             return
-        if not api.content.find(Type='Product', UID=itemUID):
-            response.redirect(portal.absolute_url())
+        try:
+            content = api.content.get(UID=uid)
+        except:
+            import pdb;pdb.set_trace()
             return
 
-        if action == 'plus':
-            if itemInCart.get(itemUID):
-                itemInCart[itemUID] += 1
+        # shop_cart's format: {UID:amount, ...}
+        shop_cart = request.cookies.get('shop_cart')
+        shop_cart = json.loads(shop_cart) if shop_cart else {}
+
+        msg = ''
+
+        if action == 'add':
+            # if shop_cart.__contains__(uid):
+            #     msg = '商品已在購物車內'
+            # else:
+            if True:
+                shop_cart[uid] = 1
+                msg = '新增成功'
+        elif action == 'plus':
+            if shop_cart.__contains__(uid):
+                shop_cart[uid] += 1
             else:
-                itemInCart[itemUID] = 1
+                shop_cart[uid] = 1
         elif action == 'less':
-            item = itemInCart.get(itemUID)
+            item = shop_cart.__contains__(uid)
             if item > 1:
-                itemInCart[itemUID] -= 1
+                shop_cart[uid] -= 1
             else:
-                itemInCart.pop(itemUID)
+                del shop_cart[uid]
         elif action == 'del':
-            itemInCart.pop(itemUID)
+            del shop_cart[uid]
+            msg = '刪除成功'
         else:
-            response.redirect(portal.absolute_url())
             return
 
-        itemInCart = json.dumps(itemInCart)
-        request.response.setCookie('itemInCart', itemInCart)
+        shop_cart = json.dumps(shop_cart)
+        request.response.setCookie('shop_cart', shop_cart)
+        
+        if action in ['add', 'get'] and msg not in ['商品已在購物車內']:
+            data = {
+                'abs_url': content.absolute_url(),
+                'title': content.title,
+                'listPrice': content.listPrice,
+                'salePrice': content.salePrice
+            }
+        else:
+            data = {}
 
-        return itemInCart
+        return json.dumps({'action': action, 'msg': msg, 'data': data})

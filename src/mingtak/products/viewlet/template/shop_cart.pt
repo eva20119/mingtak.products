@@ -4,28 +4,28 @@ from plone import api
 abs_url = api.portal.get().absolute_url()
 ?>
     <div class="cart-product">
-        <div class="single-cart">
-            <div class="cart-img">
-                <a href="http://50.116.11.80:9601/alpha_en/products/vppro/team-losi-option-parts/aluminum-cluthch-shoes">
-                    <img src="http://50.116.11.80:9601/alpha_en/products/vppro/team-losi-option-parts/aluminum-cluthch-shoes/@@images/cover/thumb">
-                </a>
-            </div>
-            <div class="cart-info">
-                <h5>
-                    <a href="http://50.116.11.80:9601/alpha_en/products/vppro/team-losi-option-parts/aluminum-cluthch-shoes">(Aluminum) Clutch Shoes</a>
-                </h5>
-                <p>$ 17.8 x 1</p>
+        <div id="product_area">
+            <div class="single-cart" tal:repeat="item view/data">
+                <div class="cart-img">
+                    <a href="${item/absolute_url}">
+                        <img src="${item/absolute_url}/@@images/image_1/thumb">
+                    </a>
+                </div>
+                <div class="cart-info">
+                    <h5>
+                        <a href="${item/absolute_url}">${item/title}</a>
+                    </h5>
+                    <span class='discount_price'>NT${item/salePrice}</span>
+                    <del>${item/listPrice}</del>
+                </div>
             </div>
         </div>
-
         <div class="cart-totals">
             <h5>
-                Total <span style="color: rgb(246, 147, 31);">0</span>
-                <span>$</span>
+                Total <span style="color: rgb(246, 147, 31);" id='cart_money'>${view/cart_moeny}</span>
+                <span>NT</span>
             </h5>
         </div>
-
-        <button class="cart-checkout" data-uid="${view/context/UID}" 
-            onclick="location.href='${abs_url}/check_out'">Check out</button>
+        <button class="cart-checkout" onclick="location.href='${abs_url}/check_out'">Check out</button>
     </div>
 </div>
