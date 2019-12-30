@@ -11,7 +11,7 @@ $(function() {
             }
         })
     })
-    $('#shop-cart-icon').hover(function(){
+    $('#shop-cart-icon').click(function(){
         $('#shop-cart').toggle('slow')
     })
     $('.add_to_cart').click(function() {

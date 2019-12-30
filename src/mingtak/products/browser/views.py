@@ -16,8 +16,19 @@ class CheckOut(BrowserView):
     def __call__(self):
         request = self.request
         portal = api.portal.get()
+        abs_url = portal.absolute_url()
+        if api.user.is_anonymous():
+            request.response.redirect('%s/login' %abs_url)
+            api.portal.show_message(request=self.request, message='請先登入', type='error')
+            return
+
         shop_cart = request.cookies.get('shop_cart')
-        shop_cart = json.loads(shop_cart) if shop_cart else {}
+        if shop_cart:
+            shop_cart = json.loads(shop_cart)
+        else:
+            request.response.redirect('%s/product_lsiting' %abs_url)
+            api.portal.show_message(request=self.request, message='購物車內尚未有商品', type='error')
+            return
 
         data = []
         cart_money = 0
@@ -42,29 +53,4 @@ class ProductView(BrowserView):
         request = self.request
         portal = api.portal.get()
 
-        return self.index()
-
-
-# class ProductListing11(BrowserView):
-#     index = ViewPageTemplateFile("template/product_listing.pt")
-    
-#     def __call__(self):
-#         context = self.context
-#         request = self.request
-#         portal = api.portal.get()
-        
-#         return self.index()
-
-
-class ProductListing(BrowserView):
-    index = ViewPageTemplateFile("template/product_listing.pt")
-
-    def __call__(self):
-        context = self.context
-        request = self.request
-        portal = api.portal.get()
-        self.data = []
-        items = api.content.find(context=portal, Type='Product', review_state='published', sort_on='created', sort_order='reverse')
-        for item in items:
-            self.data.append(item.getObject())
         return self.index()
