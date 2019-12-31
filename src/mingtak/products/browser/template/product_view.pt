@@ -68,6 +68,7 @@ abs_url = api.portal.get().absolute_url()
 
 <div class="col-md-4">
     <h1 class='product_title'>${view/context/title}</h1>
+    <h4>${view/context/description}</h4>
     <div class='product_price'>
         <tal:cond condition="view/context/salePrice">
             <span class='discount_price'>NT${view/context/salePrice}</span>
@@ -77,7 +78,9 @@ abs_url = api.portal.get().absolute_url()
             <span>NT ${view/context/listPrice}</span>
         </tal:cond>
     </div>
-    <button class='add_to_cart' data-uid="${view/context/UID}" >Add To Cart</button>
+    <button class='add_to_cart' data-uid="${view/context/UID}"
+        tal:condition="python: view.context.inStock">Add To Cart</button>
+    <h3 class='out-stock' tal:condition="python: not view.context.inStock">商品缺貨中</h3>
 </div>
 
 <script>

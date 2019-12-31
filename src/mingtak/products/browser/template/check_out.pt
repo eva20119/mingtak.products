@@ -81,6 +81,8 @@ $(function(){
                         if($('.product_content').length == 0){
                             location.reload()
                         }
+                        html = '<div class="portalMessage error"><strong>Error</strong>' + rep['msg'] + '</div>'
+                        $('#global_statusmessage').append(html)
                     }
                 }
             })

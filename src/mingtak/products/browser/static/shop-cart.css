@@ -1,10 +1,10 @@
 #shop-cart{
-    max-width: 350px;
     background: #fff none repeat scroll 0 0;
     padding: 15px 20px;
     border-radius: 20px;
     z-index: 9999;
     position: absolute;
+    width: 350px;
 }
 .cart-img{
     display: inline-block;
@@ -35,7 +35,7 @@
     background: #606060;
     color: #f0ce16;
 }
-.discount_price{
+.discount_price, .out-stock{
     color: #e91113;
 }
 .product_price{
@@ -66,8 +66,12 @@
     background: #fff;
     padding: 15px;
     border-radius: 20px;
-    margin: 5px 0;
+    margin: 10px 0;
 }
 a{
     border: none !important;
+}
+.out-stock{
+    font-size: 24px;
+    font-weight: 700;
 }

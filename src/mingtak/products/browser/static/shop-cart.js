@@ -19,12 +19,6 @@ $(function() {
         $('#shop-cart').toggle('slow')
     })
     $('.add_to_cart').click(function() {
-        shop_cart = $.cookie('shop-cart')
-        if(shop_cart){
-            shop_cart = JSON.parse(shop_cart)
-        }else{
-            shop_cart = []
-        }
         uid = $(this).data()['uid']
         $.ajax({
             type: "post",
@@ -41,7 +35,13 @@ $(function() {
                     cart_money = parseInt($('#cart_money').text())
 
                     if(msg){
-                        alert(msg)
+                        $('#global_statusmessage').html('')
+                        correct = ['新增成功', '刪除成功']
+                        type = correct.includes(msg)?'info':'error'
+                        html = `<div class="portalMessage ${type}">
+                                    ${msg}
+                                </div>`
+                        $('#global_statusmessage').append(html)
                     }
 
                     if(abs_url){

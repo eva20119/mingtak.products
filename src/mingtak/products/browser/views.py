@@ -27,11 +27,11 @@ class CheckOut(BrowserView):
             shop_cart = json.loads(shop_cart)
             if not shop_cart:
                 request.response.redirect('%s/products/product_listing' %abs_url)
-                api.portal.show_message(request=self.request, message='購物車內尚未有商品', type='error')
+                api.portal.show_message(request=self.request, message='購物車內尚無商品', type='error')
                 return
         else:
             request.response.redirect('%s/products/product_listing' %abs_url)
-            api.portal.show_message(request=self.request, message='購物車內尚未有商品', type='error')
+            api.portal.show_message(request=self.request, message='購物車內尚無商品', type='error')
             return
 
         data = []
