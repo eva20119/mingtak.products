@@ -19,6 +19,17 @@ abs_url = api.portal.get().absolute_url()
                     <del>${item/listPrice}</del>
                 </div>
             </div>
+            <div class="single-cart" tal:repeat="item view/report">
+                <div class="cart-img">
+                        <img src="${abs_url}/++resource++mingtak.products/default_image.jpg" style='width: 120px;height: 70px'>
+                </div>
+                <div class="cart-info">
+                    <h5>
+                        分析報告
+                    </h5>
+                    <span>NT ${item}</span>
+                </div>
+            </div>
         </div>
         <div class="cart-totals">
             <h5>

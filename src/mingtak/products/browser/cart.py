@@ -5,6 +5,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone import api
 import json
 import logging
+from mingtak.ECBase.browser.views import SqlObj
 
 
 class CartUpdate(BrowserView):
@@ -51,6 +52,14 @@ class CartUpdate(BrowserView):
             else:
                 del shop_cart[uid]
         elif action == 'del':
+            if 'sql_' in uid:
+                execSql = SqlObj()
+                mysqlId = uid.split('sql_')[1]
+                sqlStr = """SELECT price FROM cart WHERE id = {}""".format(mysqlId)
+                price = execSql.execSql(sqlStr)[0][0]
+                sqlStr = """DELETE FROM cart WHERE id = {}""".format(mysqlId)
+                execSql.execSql(sqlStr)
+            
             del shop_cart[uid]
             msg = '刪除成功'
         else:
@@ -66,7 +75,10 @@ class CartUpdate(BrowserView):
                 'salePrice': content.salePrice
             }
         elif action == 'del':
-            data = {'price': content.salePrice or content.listPrice}
+            if 'sql_' in uid:
+                data = {'price': price}
+            else:
+                data = {'price': content.salePrice or content.listPrice}
         else:
             data = {}
 

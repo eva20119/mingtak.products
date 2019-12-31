@@ -52,6 +52,22 @@ abs_url = api.portal.get().absolute_url()
                 class="delete_product" data-uid='${item/UID}'>
         </div>
     </div>
+    <div class="row product_content" tal:repeat="item view/report">
+        <div class="col-sm-4 ">
+                <img src="${abs_url}/++resource++mingtak.products/default_image.jpg" alt="">
+        </div>
+        <div class="col-sm-4" >
+            分析報告
+        </div>
+        <div class="col-sm-2">
+            
+                <span>NT ${python: item['price']}</span>
+        </div>
+        <div class="col-sm-2">
+            <img src="${abs_url}/++resource++mingtak.products/trash.png" 
+                class="delete_product" data-uid="${python: item['mysqlId']}">
+        </div>
+    </div>
 </div>
 
 <div>

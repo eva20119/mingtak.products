@@ -9,6 +9,7 @@ from plone import api
 #import transaction
 #import csv
 import json
+from mingtak.ECBase.browser.views import SqlObj
 
 
 class CheckOut(BrowserView):
@@ -35,15 +36,25 @@ class CheckOut(BrowserView):
             return
 
         data = []
+        report = []
         cart_money = 0
+        execSql = SqlObj()
         for i in shop_cart.keys():
             try:
-                content = api.content.get(UID=i)
-                cart_money += content.salePrice if content.salePrice else content.listPrice
-                data.append(content)
-            except:
+                if 'sql_' in i :
+                    mysqlId = i.split('sql_')[1]
+                    sqlStr = """SELECT price FROM cart WHERE id = {}""".format(mysqlId)
+                    price = execSql.execSql(sqlStr)[0][0]
+                    cart_money += price
+                    report.append({'price': price, 'mysqlId': i})
+                else:
+                    content = api.content.get(UID=i)
+                    cart_money += content.salePrice if content.salePrice else content.listPrice
+                    data.append(content)
+            except Exception as e:
                 continue
         self.data = data
+        self.report = report
         self.cart_money = cart_money
         return self.template()
 
