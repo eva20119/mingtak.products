@@ -49,22 +49,44 @@ abs_url = api.portal.get().absolute_url()
         </div>
         <div class="col-sm-2">
             <img src="${abs_url}/++resource++mingtak.products/trash.png" 
-                class="delete_product">
+                class="delete_product" data-uid='${item/UID}'>
         </div>
     </div>
 </div>
 
 <div>
     <span>總計:</span>
-    <span>${view/cart_money}</span>
+    <span id='total_money'>${view/cart_money}</span>
 </div>
 
-<button class='cart-checkout' id='pay'>結帳</button>
+<button class='cart-checkout' id='pay' onclick="location.href = '${abs_url}/pay'">結帳</button>
 
 <script>
 $(function(){
-    $('#pay').click(function(){
-        location.href = '${abs_url}/pay'
+    $('.delete_product').click(function(e){
+        if(confirm('確認要刪除嘛?')){
+            uid = $(this).data()['uid']
+            self = $(this)
+            $.ajax({
+                method: 'post',
+                url: '${abs_url}/cart_update',
+                data: {action: 'del', uid: uid},
+                success: function(rep){
+                    rep = JSON.parse(rep)
+                    if(rep['msg'] == '刪除成功'){
+                        self.parent().parent().remove()
+                        total_money = parseInt($('#total_money').text())
+                        $('#total_money').text(total_money - rep['data']['price'])
+                        // 若商品都被刪光重載畫面會跳到product_listing
+                        if($('.product_content').length == 0){
+                            location.reload()
+                        }
+                    }
+                }
+            })
+        }else{
+            e.preventDefault()
+        }
     })
 })
 </script>

@@ -27,7 +27,8 @@
   <browser:page
       name="product_listing"
       for="plone.app.contenttypes.interfaces.IFolder"
-      class=".views.ProductListing"
+      class=".folder_listing.FolderView"
+      template="template/product_listing.pt"
       permission="zope2.View"
       />
   <browser:page

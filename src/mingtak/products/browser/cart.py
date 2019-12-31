@@ -66,6 +66,8 @@ class CartUpdate(BrowserView):
                 'listPrice': content.listPrice,
                 'salePrice': content.salePrice
             }
+        elif action == 'del':
+            data = {'price': content.salePrice or content.listPrice}
         else:
             data = {}
 

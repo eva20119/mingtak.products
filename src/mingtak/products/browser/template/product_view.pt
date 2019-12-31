@@ -52,11 +52,6 @@ abs_url = api.portal.get().absolute_url()
 .active, .dot:hover {
   background-color: #717171;
 }
-.product_title{
-    color: #393939;
-    font-size: 24px;
-    font-weight: 700;
-}
 </style>
 
 <div class="col-md-8">
