@@ -3,6 +3,8 @@
     background: #fff none repeat scroll 0 0;
     padding: 15px 20px;
     border-radius: 20px;
+    z-index: 9999;
+    position: absolute;
 }
 .cart-img{
     display: inline-block;

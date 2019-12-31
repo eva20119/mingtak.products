@@ -1,4 +1,8 @@
 $(function() {
+    offset = $('#shop-cart-icon').offset()
+    $('#shop-cart').css('top', offset['top'] + 40)
+    $('#shop-cart').css('left', offset['left'] - 120)
+
     $('.delete_product').click(function(){
         uid = $(this).data()['uid']
         $.ajax({

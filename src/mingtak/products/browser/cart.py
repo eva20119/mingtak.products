@@ -34,10 +34,9 @@ class CartUpdate(BrowserView):
         msg = ''
 
         if action == 'add':
-            # if shop_cart.__contains__(uid):
-            #     msg = '商品已在購物車內'
-            # else:
-            if True:
+            if shop_cart.__contains__(uid):
+                msg = '商品已在購物車內'
+            else:
                 shop_cart[uid] = 1
                 msg = '新增成功'
         elif action == 'plus':

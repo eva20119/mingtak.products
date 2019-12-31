@@ -7,7 +7,7 @@
     <browser:viewlet
         name="shop_cart"
         for="*"
-        manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
+        manager="plone.app.layout.viewlets.interfaces.IMainNavigation"
         class=".viewlet.ShopCart"
         template="template/shop_cart.pt"
         permission="zope2.View"
