@@ -39,6 +39,7 @@ $(function() {
                         correct = ['新增成功', '刪除成功']
                         type = correct.includes(msg)?'info':'error'
                         html = `<div class="portalMessage ${type}">
+                                    <strong></strong>
                                     ${msg}
                                 </div>`
                         $('#global_statusmessage').append(html)

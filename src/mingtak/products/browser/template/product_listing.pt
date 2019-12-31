@@ -19,7 +19,7 @@
                                    product_url obj/absolute_url;
                                   salePrice obj/salePrice;
                                   listPrice obj/listPrice">
-              <div class="col-md-4 ">
+              <div class="col-md-3 ">
                 <div class="single-produst">
                   <a href="${product_url}">
                     <img src="${product_url}/@@images/image_1">
