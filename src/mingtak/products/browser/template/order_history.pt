@@ -1,0 +1,119 @@
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en'
+   xmlns:tal='http://xml.zope.org/namespaces/tal'
+   xmlns:metal='http://xml.zope.org/namespaces/metal'
+   xmlns:i18n='http://xml.zope.org/namespaces/i18n'
+   lang='en'
+   metal:use-macro='context/main_template/macros/master'
+   i18n:domain='twNotice.content'>
+<body>
+
+
+<metal:content-core fill-slot='content-core'>
+<metal:content-core define-macro='content-core'
+                    tal:define='toc context/table_of_contents|nothing;'>
+
+
+<style>
+.sec_header{
+   background-color: #343a40;
+   border-color: #454d55;
+}
+.sec_header th{
+   color: #fff;
+}
+.sec_table{
+   background: #eee;
+}
+.detail{
+   display: none;
+}
+.table tr:hover{
+   background: #ccc;
+}
+.pay{
+   color: green;
+}
+.not_pay{
+   color: red;
+}
+</style>
+<table class='table'>
+   <tr class='thead-dark'>
+      <th>交易時間</th>
+      <th>總金額</th>
+      <th>付款進度</th>
+      <th style="width: 110px;"></th>
+   </tr>
+   <tal:rep repeat="item view/history">
+      <tr>
+         <td>${python: item['timestamp']}</td>
+         <td>${python: item['money']}</td>
+         <td class="${python: 'pay' if item['isPay'] else 'not_pay'}">
+            ${python: '已付款' if item['isPay'] else '尚未付款'}
+         </td>
+         <th>
+            <button class="context open_detail" data-id="${python: item['id']}">展開明細</button>
+         </th>
+      </tr>
+      <tr id="${python: item['id']}" class='detail'>
+         <td colspan="4"
+            tal:define="productList python: item['productList'];
+                        cart python: item['cart'];
+                        membership python: item['membership']
+            ">
+            <table class='sec_table'>
+               <tr class='sec_header'>
+                  <th style='width: 50%'>項目</th>
+                  <th style='width: 50%'>金額</th>
+               </tr>
+               <tr tal:condition="productList"
+                   tal:repeat="product productList">
+                  <td>
+                     <a href="${product/absolute_url}" target='_blank'>
+                        ${product/title}                     
+                     </a>
+                  </td>
+                  <td>
+                     <tal:cond condition="product/salePrice">
+                        <span class='discount_price'>NT${product/salePrice}</span>
+                        <del>${product/listPrice}</del>
+                     </tal:cond>
+                     <tal:cond condition="not: product/salePrice">
+                        <span>NT ${product/listPrice}</span>
+                     </tal:cond>
+                  </td>
+               </tr>
+               <tr tal:condition="membership">
+                  <td>${membership}</td>
+                  <td>${python: item['money']}</td>
+               </tr>
+               <tr tal:condition="cart"
+                   tal:repeat="temp cart">
+                  <td>
+                     分析報告(${python: temp['orgName']}, ${python: temp['cpc']})
+                  </td>
+                  <td>
+                     ${python: temp['price']}
+                  </td>
+               </tr>
+            </table>
+         </td>
+      </tr>
+   </tal:rep>
+</table>
+
+
+<script>
+$(function(){
+   $('.open_detail').click(function(){
+      id = $(this).data()['id']
+      $('#' + id).toggle('slow')
+   })
+})
+</script>
+
+</metal:content-core>
+</metal:content-core>
+
+</body>
+</html>

@@ -74,7 +74,7 @@ $(function() {
                         $('#cart_money').text(cart_money)
                     }
                 } catch{
-                        
+                    alert('添加失敗, 請在試一次')
                 }
             }
         });

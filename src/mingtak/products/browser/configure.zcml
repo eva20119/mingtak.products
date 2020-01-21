@@ -16,7 +16,12 @@
       name="mingtak.products"
       directory="static"
       />
-
+  <browser:page
+      name='order_history'
+      for='*'
+      class='.views.OrderHistory'
+      permission='zope2.View'
+      />
   <browser:page
       name="product_view"
       for="mingtak.products.interfaces.IProduct"
