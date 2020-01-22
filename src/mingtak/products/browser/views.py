@@ -12,6 +12,40 @@ import json
 from mingtak.ECBase.browser.views import SqlObj
 
 
+class ReBuy(BrowserView):
+    def __call__(self):
+        request = self.request
+        portal = api.portal.get()
+        id = request.get('id')
+
+        execSql = SqlObj()
+        sqlStr = """SELECT * FROM history WHERE id = {}""".format(id)
+        data = execSql.execSql(sqlStr)
+        
+        if data:
+            data = data[0]
+            cartId = data['cartId']
+            uid = data['uid']
+
+            cookie = {}
+            if cartId:
+                cartId = json.loads(cartId)
+                for i in cartId:
+                    cookie['sql_' + i] = 1
+            if uid:
+                uid = json.loads(uid)
+                for i in uid:
+                    cookie[i] = 1
+
+            sqlStr = """DELETE FROM history WHERE id = {}""".format(id)
+            execSql.execSql(sqlStr)
+            request.response.setCookie('shop_cart', json.dumps(cookie), path='/OppToday')
+            request.response.redirect(self.context.portal_url() + '/pay')
+        else:
+            request.response.redirect(self.context.portal_url() + '/history_order')
+            api.portal.show_message(request=self.request, message='訂單已遺失', type='error')
+
+
 class OrderHistory(BrowserView):
     template = ViewPageTemplateFile('template/order_history.pt')
     def __call__(self):
@@ -20,7 +54,9 @@ class OrderHistory(BrowserView):
 
         userId = api.user.get_current().id
         execSql = SqlObj()
-        sqlStr = """SELECT * FROM history WHERE user = '{}'""".format(userId)
+        sqlStr = """SELECT * FROM `history` WHERE cartId is not null or uid is not null
+                    or (membership is not null and isPay = 1) AND user = '{}'
+                """.format(userId)
         data = execSql.execSql(sqlStr)
 
         history = []

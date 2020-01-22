@@ -43,20 +43,29 @@
       <th>總金額</th>
       <th>付款進度</th>
       <th style="width: 110px;"></th>
+      <th style="width: 110px;"></th>
    </tr>
    <tal:rep repeat="item view/history">
-      <tr>
+      <tr tal:define="isPay python: item['isPay'];
+                      id python: item['id']">
          <td>${python: item['timestamp']}</td>
          <td>${python: item['money']}</td>
-         <td class="${python: 'pay' if item['isPay'] else 'not_pay'}">
-            ${python: '已付款' if item['isPay'] else '尚未付款'}
+         <td class="${python: 'pay' if isPay else 'not_pay'}">
+            ${python: '已付款' if isPay else '尚未付款'}
          </td>
          <th>
-            <button class="context open_detail" data-id="${python: item['id']}">展開明細</button>
+            <button class="context open_detail" data-id="${python: id}">展開明細</button>
+         </th>
+         <th>
+            <form method="post" action='${view/context/portal_url}/re_buy'
+               tal:condition="python: not isPay">
+               <input type="hidden" name="id" value="${python: id}">
+               <button class="context">再次購買</button>
+            </form>
          </th>
       </tr>
       <tr id="${python: item['id']}" class='detail'>
-         <td colspan="4"
+         <td colspan="5"
             tal:define="productList python: item['productList'];
                         cart python: item['cart'];
                         membership python: item['membership']

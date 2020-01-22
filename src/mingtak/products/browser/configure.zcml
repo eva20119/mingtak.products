@@ -17,10 +17,16 @@
       directory="static"
       />
   <browser:page
+      name="re_buy"
+      for="*"
+      class=".views.ReBuy"
+      permission="zope2.View"
+      />
+  <browser:page
       name='order_history'
       for='*'
       class='.views.OrderHistory'
-      permission='zope2.View'
+      permission='cmf.ManagePortal'
       />
   <browser:page
       name="product_view"
