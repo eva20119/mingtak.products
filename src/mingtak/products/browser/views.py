@@ -55,7 +55,7 @@ class OrderHistory(BrowserView):
         userId = api.user.get_current().id
         execSql = SqlObj()
         sqlStr = """SELECT * FROM `history` WHERE cartId is not null or uid is not null
-                    or (membership is not null and isPay = 1) AND user = '{}'
+                    or (membership is not null and isPay = 1) AND user = '{}' ORDER BY timestamp DESC
                 """.format(userId)
         data = execSql.execSql(sqlStr)
 
