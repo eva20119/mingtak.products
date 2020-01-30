@@ -20,7 +20,7 @@
                                   salePrice obj/salePrice;
                                   listPrice obj/listPrice">
               <div class="col-md-3 ">
-                <div class="single-produst">
+                <div class="single-product">
                   <a href="${product_url}">
                     <img src="${product_url}/@@images/image_1">
                   </a>
