@@ -36,14 +36,25 @@
 .not_pay{
    color: red;
 }
+.md-hide{
+   display: none;
+}
+@media (min-width: 768px){
+   .md-hide{
+      display: table-cell;
+   }
+   .md-show{
+      display: none;
+   }
+}
 </style>
 <table class='table'>
    <tr class='thead-dark'>
       <th>交易時間</th>
       <th>總金額</th>
       <th>付款進度</th>
-      <th style="width: 110px;"></th>
-      <th style="width: 110px;"></th>
+      <th class='md-hide' style="width: 110px;"></th>
+      <th class='md-hide' style="width: 110px;"></th>
    </tr>
    <tal:rep repeat="item view/history">
       <tr tal:define="isPay python: item['isPay'];
@@ -53,10 +64,23 @@
          <td class="${python: 'pay' if isPay else 'not_pay'}">
             ${python: '已付款' if isPay else '尚未付款'}
          </td>
-         <th>
+         <th class='md-hide'>
             <button class="context open_detail" data-id="${python: id}">展開明細</button>
          </th>
-         <th>
+         <th class='md-hide'>
+            <form method="post" action='${view/context/portal_url}/re_buy'
+               tal:condition="python: not isPay">
+               <input type="hidden" name="id" value="${python: id}">
+               <button class="context">再次購買</button>
+            </form>
+         </th>
+      </tr>
+      <tr class='' tal:define="isPay python: item['isPay'];
+                                      id python: item['id']">
+         <th class='md-show'>
+            <button class="context open_detail" data-id="${python: id}">展開明細</button>
+         </th>
+         <th class='md-show' colspan="2">
             <form method="post" action='${view/context/portal_url}/re_buy'
                tal:condition="python: not isPay">
                <input type="hidden" name="id" value="${python: id}">

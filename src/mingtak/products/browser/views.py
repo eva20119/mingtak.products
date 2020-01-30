@@ -44,8 +44,8 @@ class ReBuy(BrowserView):
             request.response.setCookie('shop_cart', json.dumps(cookie), path='/OppToday')
             request.response.redirect(self.context.portal_url() + '/pay')
         else:
-            request.response.redirect(self.context.portal_url() + '/history_order')
-            api.portal.show_message(request=self.request, message='訂單已遺失', type='error')
+            request.response.redirect(self.context.portal_url() + '/order_history')
+            api.portal.show_message(request=self.request, message='訂單已更新, 請重新選擇', type='error')
 
 
 class OrderHistory(BrowserView):
