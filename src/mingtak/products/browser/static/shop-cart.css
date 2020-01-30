@@ -6,14 +6,20 @@
     position: absolute;
     width: 350px;
 }
+.single-cart{
+    display: flex;
+    margin-bottom: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
 .cart-img{
-    display: inline-block;
     width: 120px;
 }
 .cart-info{
-    display: inline-block;
-    width: 165px;
-    margin-left: 10px;
+    width: 120px;
+}
+.cart_number{
+    color: blue;
 }
 .cart-totals{
     margin: 25px 10px;
@@ -52,6 +58,7 @@
 }
 .delete_product{
     width: 25px;
+    height: 25px;
     cursor: pointer;
 }
 .product_title{

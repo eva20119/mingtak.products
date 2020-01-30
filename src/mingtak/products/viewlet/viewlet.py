@@ -21,17 +21,20 @@ class ShopCart(base.ViewletBase):
         report = []
         cart_money = 0
         execSql = SqlObj()
-        for i in shop_cart.keys():
+        for k,v in shop_cart.items():
             try:
-                if 'sql_' in i :
-                    sqlStr = """SELECT price FROM cart WHERE id = {}""".format(i.split('sql_')[1])
+                if 'sql_' in k :
+                    sqlStr = """SELECT price FROM cart WHERE id = {}""".format(k.split('sql_')[1])
                     price = execSql.execSql(sqlStr)[0][0]
-                    cart_money += price
                     report.append(price)
                 else:
-                    content = api.content.get(UID=i)
-                    cart_money += content.salePrice if content.salePrice else content.listPrice
-                    data.append(content)
+                    obj = api.content.get(UID=k)
+                    price = obj.salePrice if obj.salePrice else obj.listPrice
+                    data.append({
+                        'obj': obj,
+                        'number': v
+                    })
+                cart_money += price * int(v)
             except:
                 continue
         self.data = data

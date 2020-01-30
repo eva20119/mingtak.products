@@ -78,6 +78,10 @@ abs_url = api.portal.get().absolute_url()
             <span>NT ${view/context/listPrice}</span>
         </tal:cond>
     </div>
+    <div style='display: flex;align-items: center;'>
+        <h4>數量:</h4>
+        <input type="number" id="number" style='width: 30%;margin-left: 15px;' value='1' min='1'>
+    </div>
     <button class='add_to_cart' data-uid="${view/context/UID}"
         tal:condition="python: view.context.inStock">Add To Cart</button>
     <h3 class='out-stock' tal:condition="python: not view.context.inStock">商品缺貨中</h3>

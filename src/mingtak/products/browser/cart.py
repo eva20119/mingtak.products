@@ -17,8 +17,9 @@ class CartUpdate(BrowserView):
         portal = api.portal.get()
         logger = self.logger
 
-        uid = request.form.get('uid')
-        action = request.form.get('action')
+        uid = request.get('uid')
+        number = request.get('number', 1)
+        action = request.get('action')
 
         if not (uid and action):
             return
@@ -38,19 +39,11 @@ class CartUpdate(BrowserView):
             if shop_cart.__contains__(uid):
                 msg = '商品已在購物車內'
             else:
-                shop_cart[uid] = 1
+                shop_cart[uid] = number
                 msg = '新增成功'
-        elif action == 'plus':
-            if shop_cart.__contains__(uid):
-                shop_cart[uid] += 1
-            else:
-                shop_cart[uid] = 1
-        elif action == 'less':
-            item = shop_cart.__contains__(uid)
-            if item > 1:
-                shop_cart[uid] -= 1
-            else:
-                del shop_cart[uid]
+        elif action == 'update':
+            shop_cart[uid] = number
+            msg = '更新成功'
         elif action == 'del':
             if 'sql_' in uid:
                 execSql = SqlObj()
@@ -59,7 +52,7 @@ class CartUpdate(BrowserView):
                 price = execSql.execSql(sqlStr)[0][0]
                 sqlStr = """DELETE FROM cart WHERE id = {}""".format(mysqlId)
                 execSql.execSql(sqlStr)
-            
+            number = shop_cart[uid]
             del shop_cart[uid]
             msg = '刪除成功'
         else:
@@ -72,7 +65,8 @@ class CartUpdate(BrowserView):
                 'abs_url': content.absolute_url(),
                 'title': content.title,
                 'listPrice': content.listPrice,
-                'salePrice': content.salePrice
+                'salePrice': content.salePrice,
+                'uid': content.UID()
             }
         elif action == 'del':
             if 'sql_' in uid:
@@ -82,4 +76,4 @@ class CartUpdate(BrowserView):
         else:
             data = {}
 
-        return json.dumps({'action': action, 'msg': msg, 'data': data})
+        return json.dumps({'action': action, 'msg': msg, 'data': data, 'number': number})

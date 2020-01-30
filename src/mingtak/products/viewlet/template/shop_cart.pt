@@ -6,18 +6,26 @@ abs_url = api.portal.get().absolute_url()
     <div class="cart-product">
         <div id="product_area">
             <div class="single-cart" tal:repeat="item view/data">
-                <div class="cart-img">
-                    <a href="${item/absolute_url}">
-                        <img src="${item/absolute_url}/@@images/image_1/thumb">
-                    </a>
-                </div>
-                <div class="cart-info">
-                    <h5>
-                        <a href="${item/absolute_url}">${item/title}</a>
-                    </h5>
-                    <span class='discount_price'>NT${item/salePrice}</span>
-                    <del>${item/listPrice}</del>
-                </div>
+                <tal:def define="obj python: item['obj']">
+                    <div class="cart-img">
+                        <a href="${obj/absolute_url}">
+                            <img src="${obj/absolute_url}/@@images/image_1/thumb">
+                        </a>
+                    </div>
+                    <div class="cart-info">
+                        <h5>
+                            <a href="${obj/absolute_url}">${obj/title}</a>
+                        </h5>
+                        <div>
+                            <span class='discount_price'>NT${obj/salePrice}</span>
+                            <del>${obj/listPrice}</del>
+                            <span class='cart_number'>X ${python: item['number']}</span>
+                        </div>
+                    </div>
+                    <img src="${abs_url}/++resource++mingtak.products/trash.png" 
+                        class="delete_product" data-uid='${obj/UID}'
+                    >
+                </tal:def>
             </div>
             <div class="single-cart" tal:repeat="item view/report">
                 <div class="cart-img">

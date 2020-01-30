@@ -20,37 +20,71 @@ abs_url = api.portal.get().absolute_url()
 .documentFirstHeading{
     display: none;
 }
+
+.product_row div{
+    border: 1px solid #ccc;
+}
+.middle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#total_money{
+    color: rgb(246, 147, 31);
+}
+.total_container{
+    font-size: 20px;
+    font-weight: 700;
+    margin: 10px 0;
+    float: right;
+}
+.amount{
+    margin: 5px;
+}
 </style>
 
 <div class="container table-row">
-    <div class='row'>
-        <div class="col-sm-4 product-thumbnail">IMAGE</div>
-        <div class="col-sm-4 product-name">PRODUCT NAME</div>
-        <div class="col-sm-2 product-price">UNIT PRICE</div>
-        <div class="col-sm-2 product-remove"></div>
+    <div class='row product_row'>
+        <div class="d-none d-md-block col-md-4 product-thumbnail">IMAGE</div>
+        <div class="d-none d-md-block col-md-3 product-name">PRODUCT NAME</div>
+        <div class="d-none d-md-block col-md-2 product-price">UNIT PRICE</div>
+        <div class="d-none d-md-block col-md-2">AMOUNT</div>
+        <div class="d-none d-md-block col-md-1 product-remove"></div>
     </div>
-    <div class="row product_content" tal:repeat="item view/data">
-        <div class="col-sm-4 ">
-            <a href="${item/absolute_url}">
-                <img src="${item/absolute_url}/@@images/image_1" alt="">
-            </a>
-        </div>
-        <div class="col-sm-4" >
-            <a href="${item/absolute_url}">${item/title}</a>
-        </div>
-        <div class="col-sm-2">
-            <tal:cond condition="item/salePrice">
-                <span class='discount_price'>NT${item/salePrice}</span>
-                <del>${item/listPrice}</del>
-            </tal:cond>
-            <tal:cond condition="not: item/salePrice">
-                <span>NT ${item/listPrice}</span>
-            </tal:cond>
-        </div>
-        <div class="col-sm-2">
-            <img src="${abs_url}/++resource++mingtak.products/trash.png" 
-                class="delete_product" data-uid='${item/UID}'>
-        </div>
+    <div class="row product_row" tal:repeat="item view/data">
+        <tal:def define="obj python: item['obj']">
+            <div class="col-xs-12 d-md-none middle">IMAGE</div>
+            <div class="col-xs-12 col-md-4 ">
+                <a href="${obj/absolute_url}">
+                    <img src="${obj/absolute_url}/@@images/image_1" alt="">
+                </a>
+            </div>
+            <div class="col-xs-12 d-md-none middle">PRODUCT NAME</div>
+            <div class="col-xs-12 col-md-3 middle" >
+                <a href="${obj/absolute_url}">${obj/title}</a>
+            </div>
+            <div class="col-xs-4 d-md-none middle">PRICE</div>
+            <div class="col-xs-4 d-md-none middle">AMOUNT</div>
+            <div class="col-xs-4 d-md-none middle"></div>
+            <div class="col-md-2 col-xs-4 middle">
+                <tal:cond condition="obj/salePrice">
+                    <span class='discount_price'>NT${obj/salePrice}</span>
+                    <del>${obj/listPrice}</del>
+                </tal:cond>
+                <tal:cond condition="not: obj/salePrice">
+                    <span>NT ${obj/listPrice}</span>
+                </tal:cond>
+            </div>
+            <div class="col-md-2 col-xs-4 middle">
+                <input type="number" class="amount" value="${python: item['number']}"
+                    data-uid='${obj/UID}' data-price="${python: obj.salePrice or obj.listPrice}"
+                    min='1'>
+            </div>
+            <div class="col-md-1 col-xs-4 middle">
+                <img src="${abs_url}/++resource++mingtak.products/trash.png" 
+                    class="delete_product" data-uid='${obj/UID}'>
+            </div>
+        </tal:def>
     </div>
     <div class="row product_content" tal:repeat="item view/report">
         <div class="col-sm-4 ">
@@ -60,8 +94,7 @@ abs_url = api.portal.get().absolute_url()
             分析報告
         </div>
         <div class="col-sm-2">
-            
-                <span>NT ${python: item['price']}</span>
+            <span>NT ${python: item['price']}</span>
         </div>
         <div class="col-sm-2">
             <img src="${abs_url}/++resource++mingtak.products/trash.png" 
@@ -70,7 +103,7 @@ abs_url = api.portal.get().absolute_url()
     </div>
 </div>
 
-<div>
+<div class='total_container'>
     <span>總計:</span>
     <span id='total_money'>${view/cart_money}</span>
 </div>
@@ -79,6 +112,35 @@ abs_url = api.portal.get().absolute_url()
 
 <script>
 $(function(){
+    $('.amount').on('input', function(e){
+        val = $(this).val()
+        uid = $(this).data()['uid']
+        if(parseInt(val) < 1){
+            alert('數量最低為1')
+            $(this).val(1)
+            val = 1
+        }
+        $.ajax({
+            method: 'post',
+            url: '${abs_url}/cart_update',
+            data: {action: 'update', uid: uid, number: val},
+            success: function(rep){
+                rep = JSON.parse(rep)
+                if(rep['msg'] == '更新成功'){
+                    amount = $('.amount')
+                    total_money = 0
+                    amount.each(function(){
+                        _this = $(this)
+                        total_money += parseInt(_this.val()) * parseInt(_this.data()['price'])
+                    })
+                    $('#total_money').text(total_money)
+                }else{
+                    alert('發生異常錯誤請在試一次')
+                    location.reload()
+                }
+            }
+        })
+    })
     $('.delete_product').click(function(e){
         if(confirm('確認要刪除嘛?')){
             uid = $(this).data()['uid']
@@ -90,9 +152,9 @@ $(function(){
                 success: function(rep){
                     rep = JSON.parse(rep)
                     if(rep['msg'] == '刪除成功'){
-                        self.parent().parent().remove()
+                        self.parents('.product_content').remove()
                         total_money = parseInt($('#total_money').text())
-                        $('#total_money').text(total_money - rep['data']['price'])
+                        $('#total_money').text(total_money - parseInt(rep['data']['price']) * parseInt(rep['number']))
                         // 若商品都被刪光重載畫面會跳到product_listing
                         if($('.product_content').length == 0){
                             location.reload()

@@ -35,7 +35,9 @@ class ReBuy(BrowserView):
             if uid:
                 uid = json.loads(uid)
                 for i in uid:
-                    cookie[i] = 1
+                    uid = i[0]
+                    number = i[1]
+                    cookie[uid] = number
 
             sqlStr = """DELETE FROM history WHERE id = {}""".format(id)
             execSql.execSql(sqlStr)
@@ -81,7 +83,13 @@ class OrderHistory(BrowserView):
             if uid:
                 uidList = json.loads(uid)
                 for i in uidList:
-                    productList.append(api.content.get(UID=i))
+                    uid = i[0]
+                    number = i[1]
+                    obj = api.content.get(UID=uid)
+                    productList.append({
+                        'obj': obj,
+                        'number': number
+                    })
 
             history.append({
                 'cart': cart,
@@ -123,18 +131,22 @@ class CheckOut(BrowserView):
         report = []
         cart_money = 0
         execSql = SqlObj()
-        for i in shop_cart.keys():
+        for k,v in shop_cart.items():
             try:
-                if 'sql_' in i :
-                    mysqlId = i.split('sql_')[1]
+                if 'sql_' in k :
+                    mysqlId = k.split('sql_')[1]
                     sqlStr = """SELECT price FROM cart WHERE id = {}""".format(mysqlId)
                     price = execSql.execSql(sqlStr)[0][0]
-                    cart_money += price
-                    report.append({'price': price, 'mysqlId': i})
+                    report.append({'price': price, 'mysqlId': k})
                 else:
-                    content = api.content.get(UID=i)
-                    cart_money += content.salePrice if content.salePrice else content.listPrice
-                    data.append(content)
+                    obj = api.content.get(UID=k)
+                    price = obj.salePrice if obj.salePrice else obj.listPrice
+                    data.append({
+                        'obj': obj,
+                        'number': v
+                    })
+                
+                cart_money += price * int(v)
             except Exception as e:
                 continue
         self.data = data

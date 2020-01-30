@@ -77,20 +77,23 @@
                </tr>
                <tr tal:condition="productList"
                    tal:repeat="product productList">
-                  <td>
-                     <a href="${product/absolute_url}" target='_blank'>
-                        ${product/title}                     
-                     </a>
-                  </td>
-                  <td>
-                     <tal:cond condition="product/salePrice">
-                        <span class='discount_price'>NT${product/salePrice}</span>
-                        <del>${product/listPrice}</del>
-                     </tal:cond>
-                     <tal:cond condition="not: product/salePrice">
-                        <span>NT ${product/listPrice}</span>
-                     </tal:cond>
-                  </td>
+                  <tal:def define="obj python: product['obj']">
+                     <td>
+                        <a href="${obj/absolute_url}" target='_blank'>
+                           ${obj/title}                     
+                        </a>
+                     </td>
+                     <td>
+                        <tal:cond condition="obj/salePrice">
+                           <span class='discount_price'>NT${obj/salePrice}</span>
+                           <del>${obj/listPrice}</del>
+                        </tal:cond>
+                        <tal:cond condition="not: obj/salePrice">
+                           <span>NT ${obj/listPrice}</span>
+                        </tal:cond>
+                        <span class="cart_number">X ${python: product['number']}</span>
+                     </td>
+                  </tal:def>
                </tr>
                <tr tal:condition="membership">
                   <td>${membership}</td>
